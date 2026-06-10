@@ -6,23 +6,6 @@
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-#carrousel {
-    display: flex;
-    z-index: 1000;
-    height: 230px;
-    width: 100%;
-
-    background-color: #444;
-}
-
-img {
-    width: 280px;
-    height: 200px;
-    margin-top: 10px;
-    margin-left: 8px;
-    margin-right: 8px;
-}
-
 p {
     text-align: center; 
     color: #888; 
@@ -132,7 +115,7 @@ section {
     display: flex;
     gap: 30px;
     align-items: center;
-    z-index: 100;
+    z-index: 0;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
@@ -170,3 +153,59 @@ section {
 
 .dock::before { left: -20px; }
 .dock::after { right: -20px; }
+
+#carrousel {
+    display: flex;
+    z-index: 1000;
+    height: 260px;
+    width: 100%;
+
+    background-color: #444;
+    overflow-y: hidden;
+    overflow-x: hidden;
+
+    padding-right: 10px;
+}
+
+#carrousel::-webkit-scrollbar {
+    display: none;
+}
+
+#carrousel img {
+    width: 220px;
+    height: 240px;
+    flex-shrink: 0;
+
+    border-radius: 10px;
+}
+
+img {
+    width: 280px;
+    height: 200px;
+    margin-top: 10px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+#github-link {
+    width: 250px;
+    height: 250px;
+    margin-top: 30px;
+    transition: all ease-in-out 0.2s;
+}
+
+#github-link:hover {
+    transform: scale(1.1);
+}
+
+#github-link:active {
+    transform: scale(0.9);
+}
+
+#logo-forweb {
+    width: 350px;
+    height: 350px;
+    margin-top: 0px;
+
+    transition: all ease-in-out 0.2s;
+}
