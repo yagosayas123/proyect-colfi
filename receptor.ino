@@ -9,7 +9,7 @@ String binario;
 String vacio = "00000000";
 int lectura;
 float estimacion=10;
-int estimacionfinal=50;
+int estimacionfinal=100;
 float K[5]={0.35, 0.25, 0.20, 0.12, 0.08};
 int acomodo=0;
 char total;
@@ -61,41 +61,82 @@ void loop() {
     numBin2=0;
   }
 
-  if(numActSincro < 50)
+  while(lecturas==5 && numBinSincro==0)
   {
-      reset = true;
+    numActSincro=analogRead(sincro);
+    //numAct1=analogRead(ldrPin);
+    //Serial.println(numAct1);
+    if (numActSincro>numAntSincro+2){numBinSincro=1;}
+    if (numActSincro<numAntSincro-2){numBinSincro=0;}
+    numAntSincro=numActSincro;
+    reset=true;
+    espera=true;
   }
-
   numAct2 = analogRead(ldrPin2);
   numAct1 = analogRead(ldrPin);
-  if (numAct1>50){numBin1=1;}
-  else{numBin1=0;}
-  if (numAct2>140){numBin2=1;}
-  else{numBin2=0;}
+  if (numAct1>numAnt1+umbral){numBin1=1;}
+  if (numAct1<numAnt1-umbral){numBin1=0;}
+  if (numAct2>numAnt2+umbral){numBin2=1;}
+  if (numAct2<numAnt2-umbral){numBin2=0;}
   numAnt1=numAct1;
   numAnt2=numAct2;
   //Serial.println(eravez);
-  if (numActSincro>50 && reset)
+  if (lecturas==5 && reset==true)
   {
-    //Serial.print("SYNC=");
-    //Serial.println(numActSincro);
-    //Serial.print("PAR=");
-    //Serial.print(numBin1);
-    //Serial.println(numBin2);
+    numAct1=analogRead(ldrPin);
+    Serial.println(numAct1);
+    if (numBin1==1)
+    {
+      if(eravez==false)
+      {
+        binario+="0";
+        conteo+=1;
+        //Serial.print("Caracter:");
+        Serial.println("0");
+      }
+      else
+      {
+      binario+="1";
+      conteo+=1;
+      //Serial.print("Caracter:");
+      Serial.println("1");
+      }
+    }
+    else
+    {
+      binario+="0";
+      conteo+=1;
+      //Serial.print("Caracter:");
+      Serial.println("0");
+    }
 
-    //Serial.print("A1=");
-    //Serial.print(numAct1);
-    //Serial.print(" A0=");
-    //Serial.priwntln(numAct2); 
-    
-    binario += numBin1;
-    binario += numBin2;
-    conteo+=2;
-
-    //Serial.print("BIN DESPUES=");
-    //Serial.println(binario);
+    if (numBin2==1)
+    {
+      binario+="1";
+      conteo+=1;
+      //Serial.print("Caracter:");
+      Serial.println("1");
+      eravez=true;
+    }
+    else
+    {
+      if(eravez==false)
+      {
+        binario+="1";
+        conteo+=1;
+        //Serial.print("Caracter:");
+        Serial.println("1");
+        eravez=true;
+      }
+      else
+      {
+      binario+="0";
+      conteo+=1;
+      //Serial.print("Caracter:");
+      Serial.println("0");
+      }
+    }
     reset=false;
-    //Serial.println(conteo);
   }
 
   if (conteo==8)
@@ -104,15 +145,11 @@ void loop() {
       {
         asm volatile ("jmp 0");
       }
-      //Serial.print("BIN=");
-      //Serial.println(binario);
-
       char caracter = (char)strtol(binario.c_str(), NULL, 2);
-
-      //Serial.print("CHAR=");
-      Serial.print(caracter);
+      Serial.print(caracter); 
       conteo=0;
       binario="";
     }
 
+    delay((estimacionfinal/100)*30);
 }
