@@ -1,82 +1,117 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-#include <ctype.h>
-#include <string.h>
-#include <avr/pgmspace.h>
-int a;
-int led1 = 3;
-int led2 = 5;
-int brillo;
-const char texto[] PROGMEM = "01000001";
-int boton=8;
-int er=0;
-int cambio=0;
+int led1 = 6;
+int led2 = 3;
+int sincro = 7;
+char testeo[] ="";
+bool pasa= false;
+String texto="";
+int conteo=0;
+String palabra="";
+float espera=2500;
+char c[9];
+int bit = 0;
+int a=true;
 void setup() 
 {
+  Serial.println("");
   pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);
-  pinMode(boton, INPUT);
-  Serial.begin(9600);
+  pinMode(sincro, OUTPUT);
+  Serial.begin(115200);
+  Serial.setTimeout(100);
+  Serial.println("INGRESE PALABRA");
+  while(Serial.available()==0)
+  {
+  }
+  palabra = Serial.readStringUntil('\n');
+  //int cant=palabra.length();
+  //char buffer[cant];
+  //itoa(palabra, buffer, 10);
 }
+
 
 void loop() 
 {
-  Serial.println("");
-  Serial.println("ESPERANDO INCIO SECUENCIA");
-  int estadoBoton = digitalRead(boton);
-  if (estadoBoton == 0) 
+  if(bit == 0)
   {
-    while(er==0)
+    char letra = palabra[conteo];
+
+    for(int i = 0; i < 8; i++)
     {
-      estadoBoton = digitalRead(boton);
-      if(estadoBoton==1)
-      {
-        er+=1;
-        digitalWrite(led1, HIGH);
-        digitalWrite(led2, HIGH);
-        delay(7);
-      }
+      c[i] = bitRead(letra, 7 - i) + '0';
+    }
+
+    c[8] = '\0';
+    if(a){
+      delay(2000);
+      a=false;
     }
   }
-  digitalWrite(led1, LOW);
-  digitalWrite(led2, LOW);
-  delay(3);
-  for (int i = 0; i < strlen(texto); i++) 
+  //palabra = Serial.readStringUntil('\n');
+  if(Serial.available())
   {
-    char c = pgm_read_byte(&texto[i]);
-    Serial.print("Caracter: ");
-    Serial.println(c);
-    if (c == '0')
-    {
-      if(cambio==0)
-      {
-        digitalWrite(led1, LOW);
-        cambio=1;
-      }
-      else
-      {
-        digitalWrite(led2, LOW);
-        cambio=0;
-      }
-    }
-    if (c== '1')
-    {
-      if(cambio==0)
-      {  
-        digitalWrite(led1, HIGH);
-        cambio=1;
-      }
-      else
-      {
-        digitalWrite(led2, HIGH);
-        cambio=0;
-      }
-    }
-    delay(20);
+    palabra = Serial.readStringUntil('\n');
   }
-  er=0;
-  delay(15);
-  digitalWrite(led1, LOW);
-  digitalWrite(led2, LOW);
+  /*while(pasa==false)
+  {
+    char c = testeo[conteo];
+    if(c=='0')
+    {
+      digitalWrite(led1, LOW);
+    }
+    else
+    {
+      digitalWrite(led1, HIGH);
+    }
+    Serial.print(c);
+    delay(espera);
+    conteo+=1;
+    if(conteo==5)
+    {
+      digitalWrite(led1, LOW);
+      digitalWrite(led2, LOW);
+      Serial.println("");
+      conteo=0;
+      pasa=true;
+    }
+  }*/
+  Serial.println(c[bit]);
+  if(c[bit]=='0')
+  {
+    digitalWrite(led1, LOW);
+  }
+  else
+  {
+    digitalWrite(led1, HIGH);
+  } 
+  bit++;
+  Serial.println(c[bit]);
+  if(c[bit]=='0')
+  {
+    digitalWrite(led2, LOW);
+  }
+  else
+  {
+    digitalWrite(led2, HIGH);
+  }
+  bit++;
+  delay((espera/100)*25);
+  digitalWrite(sincro, HIGH);
+  delay((espera/100)*50);
+  digitalWrite(sincro, LOW);
+  delay((espera/100)*25); 
+  if(bit == 8)
+  {
+    bit = 0;
+    conteo++;
+  }
+
+  if(conteo >= palabra.length() || palabra== "para gil")
+  {
+    digitalWrite(led1, LOW);
+    digitalWrite(led2, LOW);
+    asm volatile ("jmp 0");
+  }
 }
