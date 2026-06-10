@@ -1,733 +1,172 @@
-
-/*  Variables de colores y tamaños
-    Estan todas aca arriba para que sea facil cambiarlas*/
-:root {
-    --fondo: #06060f;
-    --superficie: #0c0c1a;
-    --superficie2: #111128;
-    --borde: #1e1e3a;
-    --morado: #7c3aed;
-    --morado-claro: #a78bfa;
-    --morado-transparente: rgba(124,58,237,0.12);
-    --amarillo: #f7d74a;
-    --amarillo-transparente: rgba(247,215,74,0.08);
-    --gris: #8892b0;
-    --gris-oscuro: #1a1a30;
-    --texto: #ccd6f6;
-    --texto-apagado: #3d4466;
-    --verde: #64ffda;
-    --ancho-nav: 64px;
-}
-
-/* Reset basico para que todo arranque igual en todos los navegadores */
-*, *::before, *::after {
+/* Estilos generales y reset */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-html, body {
+#carrousel {
+    display: flex;
+    z-index: 1000;
+    height: 230px;
+    width: 100%;
+
+    background-color: #444;
+}
+
+img {
+    width: 280px;
+    height: 200px;
+    margin-top: 10px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+p {
+    text-align: center; 
+    color: #888; 
+    margin-top: 16px; 
+    font-size: 1.2em;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+    
+}
+
+body, html {
     height: 100%;
-    overflow: hidden; /* sin scroll general, cada seccion tiene su tamaño justo */
-    background: var(--fondo);
-    color: var(--texto);
-    font-family: 'JetBrains Mono', monospace;
+    background-color: #0a0a0a;
+    color: #ffffff;
+    overflow-x: hidden;
+    scroll-behavior: smooth; /* Para el movimiento suave entre secciones */
 }
 
-/* Efecto de scanlines (las rayitas que se ven sobre todo) */
-body::after {
-    content: '';
+/* Capa de fondo para el efecto Parallax de puntos */
+#parallax-dots {
     position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(
-        0deg,
-        transparent, transparent 3px,
-        rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px
-    );
-    pointer-events: none; /* que no bloquee los clics */
-    z-index: 9999;
-}
-
-/* Fondo con cuadricula*/
-.fondo-cuadricula {
-    position: fixed;
-    inset: 0;
-    background-image:
-        linear-gradient(rgba(124,58,237,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(124,58,237,0.04) 1px, transparent 1px);
-    background-size: 48px 48px;
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    /* Patrón de puntos usando gradientes radiales */
+    background-image: radial-gradient(rgba(255, 255, 255, 0.4) 1.5px, transparent 1.5px);
+    background-size: 25px 25px;
+    /* Máscara para que los puntos solo se vean arriba y se difuminen hacia abajo */
+    -webkit-mask-image: radial-gradient(ellipse at top, black 0%, transparent 60%);
+    mask-image: radial-gradient(ellipse at top, black 0%, transparent 60%);
     z-index: 0;
-    /* Antes tenia una mini animacion de movimiento, 
-    la saque porq a veces tiraba error y era medio al pedo
-    sigo sin saber bien porq tiraba error siendo sincero*/
+    pointer-events: none;
 }
 
-/* Oscurecimiento en los bordes*/
-.viñeta {
+/* Hexágonos decorativos (Simplificados con CSS pseudo-elementos) */
+.hex-bg {
     position: fixed;
-    inset: 0;
-    background: radial-gradient(ellipse at center, transparent 50%, rgba(6,6,15,0.8) 100%);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 300px;
+    height: 100vh;
+    background-image: url('data:image/svg+xml;utf8,<svg width="60" height="103.923" viewBox="0 0 60 103.923" xmlns="http://www.w3.org/2000/svg"><path d="M30 0l25.98 15v30L30 60 4.02 45V15z" stroke="rgba(255,255,255,0.2)" stroke-width="1" fill="none"/></svg>');
+    z-index: 0;
     pointer-events: none;
+}
+
+.hex-bg.left { left: -100px; }
+.hex-bg.right { right: -100px };
+
+/* Contenedor principal de las secciones */
+.sections-container {
+    position: relative;
     z-index: 1;
 }
 
-/* BARRA DE NAVEGACION*/
-.nav-derecha {
-    position: fixed;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: var(--ancho-nav);
-    background: rgba(11,11,22,0.95);
-    border-left: 1px solid var(--borde);
+/* Estilo de cada sección (para probar la navegación) */
+section {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    gap: 4px;
-    z-index: 200;
-    backdrop-filter: blur(12px);
+    align-items: center;
+    padding-bottom: 100px; /* Espacio para la barra de navegación */
+} 
+
+/* Estilos específicos del Logo */
+.logo-container {
+    text-align: center;
+    user-select: none;
 }
 
-/* El nombre "COL.FI" arriba rotado */
-.nav-marca {
-    position: absolute;
-    top: 24px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 9px;
+.logo {
+    font-size: 5rem;
+    font-weight: 400;
+    letter-spacing: -2px;
+    margin-bottom: 5px;
+}
+
+.logo .bold {
     font-weight: 700;
-    color: var(--morado-claro);
-    letter-spacing: 3px;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    opacity: 0.6;
 }
 
-/* Cada boton de la nav */
-.nav-boton {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    padding: 10px 6px;
-    cursor: pointer;
-    color: var(--texto-apagado);
-    width: 100%;
-    border: none;
-    border-right: 2px solid transparent;
-    background: none;
-    transition: color 0.2s, background 0.2s;
+.logo .dot {
+    color: #FFD700; /* Punto amarillo */
 }
 
-.nav-boton:hover {
-    color: var(--morado-claro);
-    background: var(--morado-transparente);
-}
-
-/* El boton de la seccion actual se pone en amarillo */
-.nav-boton.activo {
-    color: var(--amarillo);
-    background: var(--amarillo-transparente);
-    border-right-color: var(--amarillo);
-}
-
-.nav-boton svg {
-    width: 20px;
-    height: 20px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 1.6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.nav-etiqueta {
-    font-size: 8px;
+.subtitle {
+    font-size: 1.2rem;
+    font-weight: 300;
     letter-spacing: 1px;
-    text-transform: uppercase;
-    font-weight: 500;
+    color: #cccccc;
 }
 
-/* liñita separadora entre grupos de botones */
-.nav-separador {
-    width: 30px;
-    height: 1px;
-    background: var(--borde);
-    margin: 4px 0;
-}
-
-/* El año abajo de la nav, tambien rotado */
-.nav-año {
-    position: absolute;
-    bottom: 20px;
-    font-size: 8px;
-    color: var(--texto-apagado);
-    letter-spacing: 1px;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-}
-
-/* SECCIONES */
-.contenedor-secciones {
+/* Barra de navegación inferior (Dock) */
+.dock {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: var(--ancho-nav); /* deja espacio para la nav de la derecha */
-    bottom: 0;
-    z-index: 10;
-}
-
-/* Cada seccion ocupa todo el espacio y esta escondida por defecto */
-.seccion {
-    position: absolute;
-    inset: 0;
-    overflow: hidden; /* sin scroll en ninguna seccion */
-    padding: 48px 60px;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffffff;
+    padding: 10px 25px;
+    border-radius: 50px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    /* Empieza invisible y un poco corrida para la derecha */
-    opacity: 0;
-    pointer-events: none;
-    transform: translateX(18px);
-
-    /* La transicion de entrada/salida esta en animaciones.js */
-    transition: opacity 0.35s ease, transform 0.35s ease;
+    gap: 30px;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-/* La seccion que esta visible en este momento */
-.seccion.activa {
-    opacity: 1;
-    pointer-events: all;
-    transform: translateX(0);
-}
-
-/* inicio */
-.barra-estado {
-    font-size: 11px;
-    color: var(--verde);
-    letter-spacing: 2px;
-    margin-bottom: 32px;
+/* Íconos del Dock */
+.dock a {
+    color: #000000;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
-/* Puntito verde que parpadea */
-.barra-estado::before {
+/* Efecto de agrandado al pasar el mouse (Hover) */
+.dock a:hover {
+    transform: scale(1.4); /* Agranda el ícono */
+    color: #444; /* Cambia levemente el color */
+}
+
+/* Puntitos blancos al lado de la barra */
+.dock::before, .dock::after {
     content: '';
-    display: inline-block;
+    position: absolute;
     width: 8px;
     height: 8px;
+    background-color: #fff;
     border-radius: 50%;
-    background: var(--verde);
-    box-shadow: 0 0 10px var(--verde);
-    animation: parpadeo-punto 2s ease-in-out infinite;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-@keyframes parpadeo-punto {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.3; }
-}
-
-/* El titulo gigante "ColFi." */
-.logo-grande {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(72px, 12vw, 140px);
-    font-weight: 900;
-    color: var(--texto);
-    line-height: 1;
-    letter-spacing: -2px;
-    user-select: none;
-    animation: efecto-glitch 8s ease-in-out infinite;
-}
-
-.logo-grande .color-acento { color: var(--morado-claro); }
-.logo-grande .color-punto  { color: var(--amarillo); }
-
-/* El glitch que hace que el logo se rompa cada tanto */
-@keyframes efecto-glitch {
-    /* La mayor parte del tiempo no pasa nada */
-    0%, 88%, 100% {
-        text-shadow: none;
-        transform: skew(0);
-    }
-    /* En el 89% empieza el efecto rapidamente */
-    89% { text-shadow: 4px 0 var(--morado), -4px 0 var(--amarillo); transform: skew(-1.5deg); }
-    90% { text-shadow: -4px 0 var(--morado),  4px 0 var(--amarillo); transform: skew(1.5deg); }
-    91% { text-shadow: 2px 0 var(--amarillo), -2px 0 var(--morado);  transform: skew(0.5deg); }
-    92% { text-shadow: none; transform: skew(0); }
-}
-
-.logo-subtitulo {
-    font-size: 13px;
-    letter-spacing: 6px;
-    color: var(--gris);
-    text-transform: uppercase;
-    margin-top: 16px;
-    margin-bottom: 8px;
-}
-
-.logo-tag {
-    font-size: 12px;
-    color: var(--morado-claro);
-    letter-spacing: 2px;
-    margin-bottom: 40px;
-}
-.logo-tag span { color: var(--amarillo); }
-
-/* La linea con el cursor tipo terminal */
-.linea-prompt {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--gris);
-}
-.simbolo-prompt { color: var(--amarillo); }
-
-/* El cursorcito que parpadea */
-.cursor-parpadeante {
-    display: inline-block;
-    width: 10px;
-    height: 18px;
-    background: var(--amarillo);
-    animation: parpadeo-cursor 1.2s step-end infinite;
-    vertical-align: middle;
-}
-
-@keyframes parpadeo-cursor {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0; }
-}
-
-/* El link con la flecha "ver informacion" */
-.flecha-siguiente {
-    margin-top: 48px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 11px;
-    color: var(--texto-apagado);
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: color 0.2s;
-}
-.flecha-siguiente:hover { color: var(--morado-claro); }
-.flecha-siguiente svg {
-    width: 16px;
-    height: 16px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-}
-
-/*ENCABEZADOS DE SECCIONES (el "//(Numero de seccion) (titulo))*/
-.encabezado-seccion {
-    margin-bottom: 28px;
-}
-.etiqueta-seccion {
-    font-size: 11px;
-    color: var(--amarillo);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-}
-.encabezado-seccion h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--texto);
-    letter-spacing: 1px;
-}
-.encabezado-seccion h2 .color-acento { color: var(--morado-claro); }
-
-/* Etiqueta mas chica para subsecciones tipo "// repositorio" */
-.etiqueta-subseccion {
-    font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--texto-apagado);
-    margin: 20px 0 12px;
-}
-.etiqueta-subseccion:first-of-type { margin-top: 0; }
-
-/* SECCION INFO*/
-.descripcion-info {
-    max-width: 680px;
-    line-height: 1.9;
-    font-size: 13px;
-    color: var(--gris);
-    margin-bottom: 28px;
-    font-weight: 300;
-}
-.descripcion-info strong { color: var(--amarillo); font-weight: 500; }
-
-/* Las tres tarjetitas con los numeros */
-.grilla-tarjetas-info {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    max-width: 500px;
-}
-
-.tarjeta-info {
-    background: var(--superficie);
-    border: 1px solid var(--borde);
-    padding: 20px 16px;
-    position: relative; /* necesario para los pseudoelementos de las esquinas */
-}
-
-/* Esquinitas decorativas arriba-izquierda */
-.tarjeta-info::before {
-    content: '';
-    position: absolute;
-    top: -1px; left: -1px;
-    width: 14px; height: 14px;
-    border-top: 2px solid var(--morado-claro);
-    border-left: 2px solid var(--morado-claro);
-}
-
-/* Esquinitas decorativas abajo-derecha */
-.tarjeta-info::after {
-    content: '';
-    position: absolute;
-    bottom: -1px; right: -1px;
-    width: 14px; height: 14px;
-    border-bottom: 2px solid var(--morado-claro);
-    border-right: 2px solid var(--morado-claro);
-}
-
-.tarjeta-numero {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--amarillo);
-    margin-bottom: 4px;
-}
-
-.tarjeta-etiqueta {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--texto-apagado);
-}
-
-/* SECCION SISTEMA — diagrama y grilla de specs*/
-.diagrama-flujo {
-    display: flex;
-    align-items: center;
-    max-width: 100%;
-    margin-bottom: 24px;
-    flex-wrap: wrap; /* por si la pantalla es chica */
-    gap: 0;
-}
-
-.nodo-flujo {
-    background: var(--superficie2);
-    border: 1px solid var(--borde);
-    padding: 12px 16px;
-    font-size: 11px;
-    color: var(--texto);
-    letter-spacing: 1px;
-    text-align: center;
-    flex: 1;
-}
-
-.nodo-tipo {
-    font-size: 8px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--texto-apagado);
-    display: block;
-    margin-bottom: 4px;
-}
-
-/* Colores para cada tipo de nodo */
-.nodo-flujo.morado { border-color: var(--morado);  color: var(--morado-claro); }
-.nodo-flujo.amarillo { border-color: #6b5c12;       color: var(--amarillo); }
-.nodo-flujo.verde  { border-color: #1a3a2a;         color: var(--verde); }
-
-.flecha-flujo {
-    font-size: 18px;
-    color: var(--texto-apagado);
-    padding: 0 4px;
-    flex-shrink: 0;
-}
-
-/* Grilla de los 4 bloques de specs */
-.grilla-specs {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    max-width: 680px;
-}
-
-.bloque-spec {
-    background: var(--superficie);
-    border: 1px solid var(--borde);
-    padding: 18px;
-    position: relative;
-}
-
-/* Barrita de color a la izquierda de cada bloque */
-.bloque-spec::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px;
-    height: 100%;
-    background: var(--morado);
-}
-.bloque-spec.amarillo::before { background: var(--amarillo); }
-
-.spec-subtitulo {
-    font-size: 9px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--texto-apagado);
-    margin-bottom: 8px;
-}
-
-.spec-titulo {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    color: var(--texto);
-    margin-bottom: 10px;
-}
-
-.spec-lista {
-    list-style: none;
-    font-size: 11px;
-    color: var(--gris);
-    line-height: 2;
-}
-
-.spec-lista li::before {
-    content: '▸ ';
-    color: var(--morado-claro);
-}
-.spec-lista.amarilla li::before { color: var(--amarillo); }
-
-/*SECCION ARCHIVOS*/
-.entrada-archivo {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px 20px;
-    background: var(--superficie);
-    border: 1px solid var(--borde);
-    margin-bottom: 10px;
-    max-width: 680px;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 0.2s, background 0.2s;
-    position: relative;
-}
-
-.entrada-archivo:hover {
-    border-color: var(--morado-claro);
-    background: var(--morado-transparente);
-}
-
-.entrada-archivo:hover .archivo-flecha {
-    transform: translateX(4px);
-}
-
-.archivo-icono {
-    width: 36px; height: 36px;
-    background: var(--gris-oscuro);
-    border: 1px solid var(--borde);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.archivo-icono svg {
-    width: 18px; height: 18px;
-    stroke: var(--gris);
-    fill: none;
-    stroke-width: 1.6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.archivo-info { flex: 1; }
-
-.archivo-titulo {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--texto);
-    margin-bottom: 2px;
-}
-
-.archivo-sub {
-    font-size: 10px;
-    color: var(--texto-apagado);
-    letter-spacing: 1px;
-}
-
-.archivo-flecha {
-    font-size: 16px;
-    color: var(--texto-apagado);
-    transition: transform 0.2s;
-}
-
-/* La etiquetita "repo" o "doc" en la esquina */
-.archivo-tipo {
-    position: absolute;
-    top: 8px; right: 10px;
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--morado-claro);
-    background: var(--morado-transparente);
-    padding: 2px 8px;
-}
-
-/*seccion de fotos*/
-.carrusel-contenedor {
-    max-width: 680px;
-}
-
-/* El cuadro donde aparece la foto */
-.carrusel-marco {
-    position: relative;
-    background: var(--superficie);
-    border: 1px solid var(--borde);
-    overflow: hidden;
-    aspect-ratio: 16/9;
-}
-
-/* Todas las fotos dentro del marco, escondidas */
-.foto-carrusel {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.4s ease; /* fade suave al cambiar */
-    pointer-events: none;
-}
-
-/* La foto visible en este momento */
-.foto-carrusel.foto-visible {
-    opacity: 1;
-}
-
-/* Mensaje cuando no hay fotos disponibles */
-.carrusel-vacio {
-    position: absolute;
-    inset: 0;
-    display: none; /* el JS lo muestra si no hay fotos */
-    align-items: center;
-    justify-content: center;
-    background: var(--superficie2);
-    color: var(--texto-apagado);
-    font-size: 12px;
-    letter-spacing: 2px;
-}
-
-/* Los controles de navegacion del carrusel */
-.carrusel-controles {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-}
-
-.boton-carrusel {
-    background: none;
-    border: 1px solid var(--borde);
-    color: var(--gris);
-    padding: 6px 14px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s, background 0.2s;
-    letter-spacing: 1px;
-}
-
-.boton-carrusel:hover {
-    border-color: var(--morado-claro);
-    color: var(--morado-claro);
-    background: var(--morado-transparente);
-}
-
-/* Los puntitos de posicion */
-.carrusel-puntitos {
-    display: flex;
-    gap: 8px;
-}
-
-.puntito {
-    width: 6px; height: 6px;
-    background: var(--texto-apagado);
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-/* El puntito de la foto actual */
-.puntito.activo { background: var(--amarillo); }
-
-/* ─equipo */
-.bloque-escuela {
-    font-size: 12px;
-    color: var(--gris);
-    letter-spacing: 1px;
-    margin-bottom: 28px;
-    padding-left: 12px;
-    border-left: 2px solid var(--morado);
-    line-height: 1.8;
-    max-width: 600px;
-}
-
-.nombre-escuela {
-    color: var(--texto);
-    font-weight: 500;
-    margin-bottom: 4px;
-}
-
-.grilla-integrantes {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 12px;
-    max-width: 680px;
-}
-
-.tarjeta-integrante {
-    background: var(--superficie);
-    border: 1px solid var(--borde);
-    padding: 20px 16px;
-    transition: border-color 0.2s, background 0.2s;
-}
-
-.tarjeta-integrante:hover {
-    border-color: var(--morado);
-    background: var(--morado-transparente);
-}
-
-.integrante-alias {
-    font-size: 10px;
-    color: var(--texto-apagado);
-    letter-spacing: 2px;
-    margin-bottom: 8px;
-}
-
-.integrante-nombre {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--texto);
-    letter-spacing: 0.5px;
-}
-
-.integrante-rol {
-    font-size: 10px;
-    color: var(--morado-claro);
-    letter-spacing: 1px;
-    margin-top: 4px;
-    text-transform: uppercase;
-}
+.dock::before { left: -20px; }
+.dock::after { right: -20px; }
