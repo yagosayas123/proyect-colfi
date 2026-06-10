@@ -3,325 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COL.FI</title>
-
-    <!-- Fuentes sacadas de google-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="estilos.css">
+    <title>colFi. - Proyecto Col-fi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="parallax-dots"></div>
+    <div class="hex-bg left"></div>
+    <div class="hex-bg right"></div>
 
-<!-- fondo-->
-<div class="fondo-cuadricula"></div>
-<div class="viñeta"></div>
-
-<!-- Barra de navegacion -->
-<nav class="nav-derecha">
-    <span class="nav-marca">COL.FI</span>
-
-    <!--data-seccion" para el JS-->
-    <button class="nav-boton activo" data-seccion="inicio" title="Inicio">
-        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><polyline points="9 21 9 13 15 13 15 21"/></svg>
-        <span class="nav-etiqueta">Inicio</span>
-    </button>
-
-    <div class="nav-separador"></div>
-
-    <button class="nav-boton" data-seccion="info" title="Información">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="8.5"/><line x1="12" y1="11" x2="12" y2="17"/></svg>
-        <span class="nav-etiqueta">Info</span>
-    </button>
-
-    <button class="nav-boton" data-seccion="sistema" title="Sistema">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-        <span class="nav-etiqueta">Sistema</span>
-    </button>
-
-    <button class="nav-boton" data-seccion="archivos" title="Archivos">
-        <svg viewBox="0 0 24 24"><path d="M3 6a2 2 0 012-2h3.172a2 2 0 011.414.586l1.828 1.828A2 2 0 0012.828 7H19a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V6z"/></svg>
-        <span class="nav-etiqueta">Files</span>
-    </button>
-
-    <button class="nav-boton" data-seccion="fotos" title="Fotos">
-        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        <span class="nav-etiqueta">Fotos</span>
-    </button>
-
-    <div class="nav-separador"></div>
-
-    <button class="nav-boton" data-seccion="equipo" title="Equipo">
-        <svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M3 21v-1a6 6 0 016-6h0a6 6 0 016 6v1"/><circle cx="18" cy="8" r="2.5"/><path d="M21 21v-1a4.5 4.5 0 00-3-4.24"/></svg>
-        <span class="nav-etiqueta">Equipo</span>
-    </button>
-
-    <span class="nav-año">2026</span>
-</nav>
-
-<!--Contenedor de secciones-->
-<main class="contenedor-secciones">
-    <!--INICIO-->
-    <section id="inicio" class="seccion activa">
-        <div class="barra-estado">Et n35 &nbsp;·&nbsp; COL.FI v1.5 &nbsp;·&nbsp; 2026</div>
-        <h1 class="logo-grande">
-            <span class="color-acento">C</span>ol<span class="color-acento">F</span>i<span class="color-punto">.</span>
-        </h1>
-        <p class="logo-subtitulo">Comunication by Color Fidelity</p>
-        <p class="logo-tag">Feria de Ciencias 2026&nbsp;<span>·</span>&nbsp; Buenos Aires</p>
-        <div class="linea-prompt">
-            <span class="simbolo-prompt">$</span>
-            <span>Utilice las flechas para cambiar de seccion...</span>
-            <span class="cursor-parpadeante"></span>
-        </div>
-
-        <!-- Flecha para ir a info -->
-        <div class="flecha-siguiente" onclick="irA('info')">
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            ver información del proyecto
-        </div>
-    </section>
-
-    <!--INFORMACIÓN-->
-    <section id="info" class="seccion">
-        <div class="encabezado-seccion">
-            <div class="etiqueta-seccion">// 01 — información</div>
-            <h2>El <span class="color-acento">Proyecto</span></h2>
-        </div>
-
-        <p class="descripcion-info">
-            Este proyecto demuestra un sistema básico de comunicación <strong>Col-Fi</strong> (Color Fidelity) utilizando dos placas Arduino como modelo base.
-            La transmisión de datos se realiza mediante la <strong>encriptacion de datos en forma de tonalidades LED</strong>, mientras que la recepción
-            se lleva a cabo con un <strong>fototransistor</strong>. A pequeña escala, funciona como ejemplo y referencia
-            a posibles avances con respecto a esta tecnología de comunicación óptica, la cual con los recursos necesarios puede llegar a ser aun mas prometedora que conexiones ya existentes como el mismo wifi.
-        </p>
-
-        <!-- Tarjetas -->
-        <div class="grilla-tarjetas-info">
-            <div class="tarjeta-info">
-                <div class="tarjeta-numero">2</div>
-                <div class="tarjeta-etiqueta">Arduinos</div>
+    <div class="sections-container">
+        
+        <section id="inicio">
+            <div class="logo-container">
+                <h1 class="logo">col<span class="bold">Fi</span><span class="dot">.</span></h1>
+                <p class="subtitle">Proyecto Col-fi</p>
             </div>
-            <div class="tarjeta-info">
-                <div class="tarjeta-numero">2</div>
-                <div class="tarjeta-etiqueta">Fototransistores</div>
-            </div>
-            <div class="tarjeta-info">
-                <div class="tarjeta-numero">2</div>
-                <div class="tarjeta-etiqueta">Leds RGB</div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!--SISTEMA TÉCNICO-->
-    <section id="sistema" class="seccion">
-        <div class="encabezado-seccion">
-            <div class="etiqueta-seccion">// 02 — sistema</div>
-            <h2>Specs <span class="color-acento">Técnicas</span></h2>
-        </div>
+        <section id="informacion">
+            <h2>Información</h2>
+            <p>
+                Este proyecto busca demostrar un sistema básico de comunicación Col-Fi (Color Fidelity) utilizando dos placas Arduino. <br> 
+                La transmisión de datos se realiza mediante la modulación de la luz de un LED, mientras que la recepción se lleva a cabo con un fototransistor. <br>
+                Este proyecto a pequeña escala pretende servir como ejemplo y referencia a posibles avances con respecto a esta tecnología.<br> <br>
+            </p>
+            <div id="carrousel">
+                <img src="photos/002.jpeg">
+                <img src="photos/003.jpeg">
+                <img src="photos/001.jpeg">
+                <img src="photos/004.jpeg">
+                <img src="photos/006.jpeg">
+            </div>
+        </section>
+        
+        <section id="usuario">
+            <h2>¿Quiénes somos?</h2>
+            <p>Somos estudiantes de la E. T. "Ing. Eduardo Latzina" Nro. 35<br>participando en la "Feria de Educación, Artes, Ciencias y Tecnología 2026".</p>
+            <p>El grupo está conformado por Thiago Grillo, Lucas Marin, Ciro Lopez, Yago Sayas y Valentino Russo.</p>
+        </section>
 
-        <!-- Diagrama de flujo de la comunicacion -->
-        <div class="etiqueta-subseccion">// flujo de comunicación</div>
-        <div class="diagrama-flujo">
-            <div class="nodo-flujo morado">
-                <span class="nodo-tipo">transmisor</span>
-                Arduino Uno
-            </div>
-            <div class="flecha-flujo">→</div>
-            <div class="nodo-flujo amarillo">
-                <span class="nodo-tipo">emisor</span>
-                LED RGB
-            </div>
-            <div class="flecha-flujo">→</div>
-            <div class="nodo-flujo verde">
-                <span class="nodo-tipo">canal</span>
-                Luz Visible
-            </div>
-            <div class="flecha-flujo">→</div>
-            <div class="nodo-flujo amarillo">
-                <span class="nodo-tipo">receptor</span>
-                Fototransistor
-            </div>
-            <div class="flecha-flujo">→</div>
-            <div class="nodo-flujo morado">
-                <span class="nodo-tipo">receptor</span>
-                Arduino Uno
-            </div>
-        </div>
+        <section id="archivos">
+            <h2>GitHub</h2>
+            <p>Podes seguir nuestro repositorio para consultar códigos, conceptos e información extra.</p>
+            <a href="https://github.com/gr1ll0o/proyect-colfi"><u>Proyecto Col-Fi</u></a>
+            <br><h2>Bibliografía</h2><br>
+            <a href="https://docs.google.com/document/d/173AnS3XXFvmV6eeRK5DUw5NHlWwti-Y3nihKtxYBDz8/edit?usp=sharing"><u>"Tecnologia Col-Fi con LEDs RGB", por Thiago Grillo</u></a>
+            <a href="https://docs.google.com/document/d/1-Dihl-4YaM7QIMXAFMvgepBVzemDwMUJAeh4PGH9Aec/edit?tab=t.0"><u>"Eficiencia", por Ciro Lopez</u></a>
+        </section>
 
-        <!-- especificaciones tecnicas -->
-        <div class="grilla-specs">
-            <div class="bloque-spec">
-                <div class="spec-subtitulo">// transmisor</div>
-                <div class="spec-titulo">Arduino Uno</div>
-                <ul class="spec-lista">
-                    <li>Modulación de frecuencia</li>
-                    <li>Control PWM del LED</li>
-                    <li>Codificación de señal</li>
-                    <li>Protocolo Col-Fi</li>
-                </ul>
-            </div>
-            <div class="bloque-spec amarillo">
-                <div class="spec-subtitulo">// emisor</div>
-                <div class="spec-titulo">LED RGB</div>
-                <ul class="spec-lista amarilla">
-                    <li>Alta luminosidad</li>
-                    <li>Modulación por color</li>
-                    <li>Canales R, G, B independientes</li>
-                    <li>Multiplexado óptico</li>
-                </ul>
-            </div>
-            <div class="bloque-spec amarillo">
-                <div class="spec-subtitulo">// sensor</div>
-                <div class="spec-titulo">Fototransistor</div>
-                <ul class="spec-lista amarilla">
-                    <li>Detección de luz visible</li>
-                    <li>Alta sensibilidad óptica</li>
-                    <li>Respuesta rápida</li>
-                    <li>Filtrado de ruido</li>
-                </ul>
-            </div>
-            <div class="bloque-spec">
-                <div class="spec-subtitulo">// receptor</div>
-                <div class="spec-titulo">Arduino Uno</div>
-                <ul class="spec-lista">
-                    <li>Decodificación de señal</li>
-                    <li>Lectura analógica</li>
-                    <li>Procesamiento en tiempo real</li>
-                    <li>Salida de datos</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+        <section id="creacion">
+            <h2>Ajustes del Sistema</h2>
+        </section>
+    </div>
 
-    <!-- ARCHIVOS Y LINKS-->
-    <section id="archivos" class="seccion">
-        <div class="encabezado-seccion">
-            <div class="etiqueta-seccion">// 03 — archivos</div>
-            <h2>Recursos &amp; <span class="color-acento">Links</span></h2>
-        </div>
+    <nav class="dock">
+        <a href="#inicio" title="Inicio"><i class="fas fa-home"></i></a>
+        <a href="#informacion" title="Información"><i class="fas fa-book-open"></i></a>
+        <a href="#usuario" title="Usuario"><i class="fas fa-user"></i></a>
+        <a href="#archivos" title="Archivos"><i class="fas fa-folder"></i></a>
+        <a href="#creacion" title="Creación"><i class="fas fa-cog"></i></a>
+    </nav>
 
-        <div class="etiqueta-subseccion">// repositorio</div>
-
-        <a class="entrada-archivo" href="https://github.com/gr1ll0o/proyect-colfi" target="_blank">
-            <div class="archivo-icono">
-                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-            </div>
-            <div class="archivo-info">
-                <div class="archivo-titulo">proyect-colfi</div>
-                <div class="archivo-sub">github.com/gr1ll0o</div>
-            </div>
-            <span class="archivo-flecha">→</span>
-            <span class="archivo-tipo">repo</span>
-        </a>
-
-        <div class="etiqueta-subseccion">// bibliografía</div>
-
-        <a class="entrada-archivo" href="https://docs.google.com/document/d/173AnS3XXFvmV6eeRK5DUw5NHlWwti-Y3nihKtxYBDz8/edit?usp=sharing" target="_blank">
-            <div class="archivo-icono">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-            </div>
-            <div class="archivo-info">
-                <div class="archivo-titulo">"Tecnología Col-Fi con LEDs RGB"</div>
-                <div class="archivo-sub">por Thiago Grillo</div>
-            </div>
-            <span class="archivo-flecha">→</span>
-            <span class="archivo-tipo">doc</span>
-        </a>
-
-        <a class="entrada-archivo" href="https://docs.google.com/document/d/1-Dihl-4YaM7QIMXAFMvgepBVzemDwMUJAeh4PGH9Aec/edit?tab=t.0" target="_blank">
-            <div class="archivo-icono">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-            </div>
-            <div class="archivo-info">
-                <div class="archivo-titulo">"Eficiencia"</div>
-                <div class="archivo-sub">por Ciro Lopez</div>
-            </div>
-            <span class="archivo-flecha">→</span>
-            <span class="archivo-tipo">doc</span>
-        </a>
-    </section>
-
-
-    <!--Carrusel de fotos-->
-    <section id="fotos" class="seccion">
-        <div class="encabezado-seccion">
-            <div class="etiqueta-seccion">// 04 — galería</div>
-            <h2>Fotos del <span class="color-acento">Proyecto</span></h2>
-        </div>
-
-        <!-- Contenedor del carrusel -->
-        <div class="carrusel-contenedor">
-
-            <!-- Para aquel que lea esto, las imagenes adjuntenlas, el js es el q se encarga de la manera en la q se muestran-->
-            <!-- Si la imagen no carga, el onerror la oculta -->
-            <div class="carrusel-marco" id="carrusel-marco">
-                <img src="photos/001.jpeg" alt="foto 1" class="foto-carrusel" onerror="this.style.display='none'">
-                <img src="photos/002.jpeg" alt="foto 2" class="foto-carrusel" onerror="this.style.display='none'">
-                <img src="photos/003.jpeg" alt="foto 3" class="foto-carrusel" onerror="this.style.display='none'">
-                <img src="photos/004.jpeg" alt="foto 4" class="foto-carrusel" onerror="this.style.display='none'">
-                <img src="photos/006.jpeg" alt="foto 5" class="foto-carrusel" onerror="this.style.display='none'">
-
-                <!-- Mensaje por si no hay ninguna foto disponible x las dudas-->
-                <div class="carrusel-vacio" id="carrusel-vacio">[ imagen no disponible ]</div>
-            </div>
-
-            <!-- Botones y puntitos para navegar entre tdas -->
-            <div class="carrusel-controles">
-                <button class="boton-carrusel" id="btn-anterior" onclick="moverCarrusel(-1)">← prev</button>
-                <div class="carrusel-puntitos" id="carrusel-puntitos"></div>
-                <button class="boton-carrusel" id="btn-siguiente" onclick="moverCarrusel(1)">next →</button>
-            </div>
-        </div>
-    </section>
-
-    <!--EQUIPO-->
-    <section id="equipo" class="seccion">
-        <div class="encabezado-seccion">
-            <div class="etiqueta-seccion">// 05 — créditos</div>
-            <h2>¿Quiénes <span class="color-acento">Somos</span>?</h2>
-        </div>
-
-        <div class="bloque-escuela">
-            <div class="nombre-escuela">E.T. "Ing. Eduardo Latzina" Nro. 35</div>
-            <div>Buenos Aires &nbsp;·&nbsp; Somos estudiantes apasionados de la informatica participando en la feria de ciencias del año 2026, cada uno de nosotros aporto a este trabajo con sus conocimientos y habilidades, esta seccion es un mero capricho de parte nuestra para poder dar a conocer a el equipo que pudo hacer de este proyecto una realidad.</div>
-        </div>
-
-        <!-- Tarjetas de cada integrante -->
-        <div class="grilla-integrantes">
-            <div class="tarjeta-integrante">
-                <div class="integrante-alias">[ Gr1ll0o ]</div>
-                <div class="integrante-nombre">Thiago Grillo</div>
-                <div class="integrante-rol">Backend y desarrollo</div>
-            </div>
-            <div class="tarjeta-integrante">
-                <div class="integrante-alias">[ Ruskov33 ]</div>
-                <div class="integrante-nombre">Valentino Russo</div>
-                <div class="integrante-rol">Frontend e Investigacion</div>
-            </div>
-            <div class="tarjeta-integrante">
-                <div class="integrante-alias">[]</div>
-                <div class="integrante-nombre">Ciro Lopez</div>
-                <div class="integrante-rol">Ingenieria en Software</div>
-            </div>
-            <div class="tarjeta-integrante">
-                <div class="integrante-alias">[]</div>
-                <div class="integrante-nombre">Yago Sayas</div>
-                <div class="integrante-rol">Ingenieria en Hardware</div>
-            </div>
-            <div class="tarjeta-integrante">
-                <div class="integrante-alias">[ M4rr1n ]</div>
-                <div class="integrante-nombre">Lucas Marin</div>
-                <div class="integrante-rol">Investigacion y desarrollo</div>
-            </div>
-        </div>
-    </section>
-
-</main>
-
-<!-- Scripts al final para que carguen despues del HTML -->
-<script src="animaciones.js" defer></script>
-<script src="principal.js" defer></script>
-
+    <script src="main.js" defer></script>
 </body>
 </html>
